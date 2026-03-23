@@ -29,6 +29,7 @@ import com.cl.entity.view.YishengyuyueView;
 
 import com.cl.service.YishengyuyueService;
 import com.cl.service.TokenService;
+import com.cl.service.NotifyService;
 import com.cl.utils.PageUtils;
 import com.cl.utils.R;
 import com.cl.utils.MPUtil;
@@ -47,6 +48,8 @@ import com.cl.utils.CommonUtil;
 public class YishengyuyueController {
     @Autowired
     private YishengyuyueService yishengyuyueService;
+    @Autowired
+    private NotifyService notifyService;
 
 
 
@@ -173,6 +176,14 @@ public class YishengyuyueController {
     @SysLog("修改医生预约")
     public R update(@RequestBody YishengyuyueEntity yishengyuyue, HttpServletRequest request){
         //ValidatorUtils.validateEntity(yishengyuyue);
+        
+        // 检查是否从非审核通过状态更新为审核通过状态
+        YishengyuyueEntity oldYishengyuyue = yishengyuyueService.selectById(yishengyuyue.getId());
+        if(oldYishengyuyue != null && !"是".equals(oldYishengyuyue.getSfsh()) && "是".equals(yishengyuyue.getSfsh())) {
+            // 如果状态变为审核通过，发送通知
+            notifyService.sendNotification(yishengyuyue);
+        }
+        
         yishengyuyueService.updateById(yishengyuyue);//全部更新
         return R.ok();
     }
@@ -190,6 +201,11 @@ public class YishengyuyueController {
             yishengyuyue.setSfsh(sfsh);
             yishengyuyue.setShhf(shhf);
             list.add(yishengyuyue);
+            
+            // 如果审核通过，发送通知
+            if("是".equals(sfsh)) {
+                notifyService.sendNotification(yishengyuyue);
+            }
         }
         yishengyuyueService.updateBatchById(list);
         return R.ok();
