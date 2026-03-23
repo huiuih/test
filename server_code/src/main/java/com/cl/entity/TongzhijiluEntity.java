@@ -22,22 +22,22 @@ import com.baomidou.mybatisplus.enums.IdType;
 
 
 /**
- * 就诊通知
+ * 通知发送记录
  * 数据库通用操作实体类（普通增删改查）
  * @author 
  * @email 
  * @date 2025-03-27 15:44:15
  */
-@TableName("jiuzhentongzhi")
-public class JiuzhentongzhiEntity<T> implements Serializable {
+@TableName("tongzhijilu")
+public class TongzhijiluEntity<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	public JiuzhentongzhiEntity() {
+	public TongzhijiluEntity() {
 		
 	}
 	
-	public JiuzhentongzhiEntity(T t) {
+	public TongzhijiluEntity(T t) {
 		try {
 			BeanUtils.copyProperties(this, t);
 		} catch (IllegalAccessException | InvocationTargetException e) {
@@ -54,20 +54,64 @@ public class JiuzhentongzhiEntity<T> implements Serializable {
 	/**
 	 * 通知编号
 	 */
-					
+				
 	private String tongzhibianhao;
+	
+	/**
+	 * 预约编号
+	 */
+				
+	private String yuyuebianhao;
 	
 	/**
 	 * 医生账号
 	 */
-					
+				
 	private String yishengzhanghao;
 	
 	/**
-	 * 电话
+	 * 用户账号
 	 */
-					
-	private String dianhua;
+				
+	private String zhanghao;
+	
+	/**
+	 * 用户手机
+	 */
+				
+	private String shouji;
+	
+	/**
+	 * 通知类型：1-预约成功通知，2-就诊前一天提醒，3-就诊当天提醒
+	 */
+				
+	private Integer tongzhileixing;
+	
+	/**
+	 * 发送状态：0-待发送，1-发送成功，2-发送失败
+	 */
+				
+	private Integer fasongzhuangtai;
+	
+	/**
+	 * 重试次数
+	 */
+				
+	private Integer chongshicishu;
+	
+	/**
+	 * 失败原因
+	 */
+				
+	private String shibaiyuanyin;
+	
+	/**
+	 * 发送时间
+	 */
+				
+	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat 		
+	private Date fasongshijian;
 	
 	/**
 	 * 就诊时间
@@ -78,50 +122,10 @@ public class JiuzhentongzhiEntity<T> implements Serializable {
 	private Date jiuzhenshijian;
 	
 	/**
-	 * 通知时间
+	 * 通知内容
 	 */
 				
-	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat 		
-	private Date tongzhishijian;
-	
-	/**
-	 * 账号
-	 */
-					
-	private String zhanghao;
-	
-	/**
-	 * 手机
-	 */
-					
-	private String shouji;
-	
-	/**
-	 * 通知备注
-	 */
-				
-	private String tongzhibeizhu;
-	
-	/**
-	 * 发送状态：0-待发送，1-发送成功，2-发送失败
-	 */
-	private Integer fasongzhuangtai;
-	
-	/**
-	 * 重试次数
-	 */
-	private Integer chongshicishu;
-	
-	/**
-	 * 失败原因
-	 */
-	private String shibaiyuanyin;
-	
-	/**
-	 * 通知类型：1-预约成功通知，2-就诊前一天提醒，3-就诊当天提醒
-	 */
-	private Integer tongzhileixing;
+	private String tongzhineirong;
 	
 
 	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
@@ -154,6 +158,18 @@ public class JiuzhentongzhiEntity<T> implements Serializable {
 		return tongzhibianhao;
 	}
 	/**
+	 * 设置：预约编号
+	 */
+	public void setYuyuebianhao(String yuyuebianhao) {
+		this.yuyuebianhao = yuyuebianhao;
+	}
+	/**
+	 * 获取：预约编号
+	 */
+	public String getYuyuebianhao() {
+		return yuyuebianhao;
+	}
+	/**
 	 * 设置：医生账号
 	 */
 	public void setYishengzhanghao(String yishengzhanghao) {
@@ -166,76 +182,40 @@ public class JiuzhentongzhiEntity<T> implements Serializable {
 		return yishengzhanghao;
 	}
 	/**
-	 * 设置：电话
-	 */
-	public void setDianhua(String dianhua) {
-		this.dianhua = dianhua;
-	}
-	/**
-	 * 获取：电话
-	 */
-	public String getDianhua() {
-		return dianhua;
-	}
-	/**
-	 * 设置：就诊时间
-	 */
-	public void setJiuzhenshijian(Date jiuzhenshijian) {
-		this.jiuzhenshijian = jiuzhenshijian;
-	}
-	/**
-	 * 获取：就诊时间
-	 */
-	public Date getJiuzhenshijian() {
-		return jiuzhenshijian;
-	}
-	/**
-	 * 设置：通知时间
-	 */
-	public void setTongzhishijian(Date tongzhishijian) {
-		this.tongzhishijian = tongzhishijian;
-	}
-	/**
-	 * 获取：通知时间
-	 */
-	public Date getTongzhishijian() {
-		return tongzhishijian;
-	}
-	/**
-	 * 设置：账号
+	 * 设置：用户账号
 	 */
 	public void setZhanghao(String zhanghao) {
 		this.zhanghao = zhanghao;
 	}
 	/**
-	 * 获取：账号
+	 * 获取：用户账号
 	 */
 	public String getZhanghao() {
 		return zhanghao;
 	}
 	/**
-	 * 设置：手机
+	 * 设置：用户手机
 	 */
 	public void setShouji(String shouji) {
 		this.shouji = shouji;
 	}
 	/**
-	 * 获取：手机
+	 * 获取：用户手机
 	 */
 	public String getShouji() {
 		return shouji;
 	}
 	/**
-	 * 设置：通知备注
+	 * 设置：通知类型
 	 */
-	public void setTongzhibeizhu(String tongzhibeizhu) {
-		this.tongzhibeizhu = tongzhibeizhu;
+	public void setTongzhileixing(Integer tongzhileixing) {
+		this.tongzhileixing = tongzhileixing;
 	}
 	/**
-	 * 获取：通知备注
+	 * 获取：通知类型
 	 */
-	public String getTongzhibeizhu() {
-		return tongzhibeizhu;
+	public Integer getTongzhileixing() {
+		return tongzhileixing;
 	}
 	/**
 	 * 设置：发送状态
@@ -274,16 +254,40 @@ public class JiuzhentongzhiEntity<T> implements Serializable {
 		return shibaiyuanyin;
 	}
 	/**
-	 * 设置：通知类型
+	 * 设置：发送时间
 	 */
-	public void setTongzhileixing(Integer tongzhileixing) {
-		this.tongzhileixing = tongzhileixing;
+	public void setFasongshijian(Date fasongshijian) {
+		this.fasongshijian = fasongshijian;
 	}
 	/**
-	 * 获取：通知类型
+	 * 获取：发送时间
 	 */
-	public Integer getTongzhileixing() {
-		return tongzhileixing;
+	public Date getFasongshijian() {
+		return fasongshijian;
+	}
+	/**
+	 * 设置：就诊时间
+	 */
+	public void setJiuzhenshijian(Date jiuzhenshijian) {
+		this.jiuzhenshijian = jiuzhenshijian;
+	}
+	/**
+	 * 获取：就诊时间
+	 */
+	public Date getJiuzhenshijian() {
+		return jiuzhenshijian;
+	}
+	/**
+	 * 设置：通知内容
+	 */
+	public void setTongzhineirong(String tongzhineirong) {
+		this.tongzhineirong = tongzhineirong;
+	}
+	/**
+	 * 获取：通知内容
+	 */
+	public String getTongzhineirong() {
+		return tongzhineirong;
 	}
 
 }
